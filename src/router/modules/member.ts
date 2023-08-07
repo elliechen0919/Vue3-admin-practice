@@ -45,7 +45,8 @@ const routes: Array<RouteRecordRaw> = [
           hidden: true,
           // activeMenu: 'basic-list',
         },
-        component: () => import('@/views/list/basicList/info.vue'),
+        // component: () => import('@/views/list/basicList/info.vue'),
+        component: () => import('@/views/member/BasicSetting.vue'),
       },
       {
         path: 'editCell',
