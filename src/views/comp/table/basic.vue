@@ -1,7 +1,7 @@
 <template>
   <n-card :bordered="false" class="proCard">
     <BasicTable
-      title="表格列表"
+      title="會員管理表格列表"
       titleTooltip="这是一个提示"
       :columns="columns"
       :request="loadDataTable"
@@ -25,6 +25,9 @@
   import { columns } from './basicColumns';
   import { useDialog, useMessage } from 'naive-ui';
   import { DeleteOutlined, EditOutlined } from '@vicons/antd';
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
 
   const message = useMessage();
   const dialog = useDialog();
@@ -99,6 +102,7 @@
       negativeText: '取消',
       onPositiveClick: () => {
         message.success('删除成功');
+        // todo 頁面需要重新取得資料
       },
       onNegativeClick: () => {},
     });
@@ -106,7 +110,18 @@
 
   function handleEdit(record) {
     console.log(record);
-    message.success('您点击了编辑按钮');
+    console.log('点击了编辑', record);
+    dialog.info({
+      title: '提示',
+      content: `您想編輯 ${record.name} 的資料?`,
+      positiveText: '确定',
+      negativeText: '取消',
+      onPositiveClick: () => {
+        // todo 頁面的path要改 這是錯的
+        router.push({ name: 'member-basic-info', params: { id: record.id } });
+      },
+      onNegativeClick: () => {},
+    });
   }
 </script>
 
