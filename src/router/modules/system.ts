@@ -21,24 +21,35 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/system/menu',
     component: Layout,
     meta: {
-      title: '系统设置',
+      title: 'System',
       icon: renderIcon(OptionsSharp),
       sort: 1,
     },
     children: [
       {
-        path: 'menu',
-        name: 'system_menu',
+        path: 'user',
+        name: 'system_user',
         meta: {
-          title: '菜单权限管理',
+          title: 'User Management',
         },
-        component: () => import('@/views/system/menu/menu.vue'),
+        component: () => import('@/views/list/basicList/index.vue'),
+      },
+      // todo 之後改一下path
+      {
+        path: 'user/basic-info/:id?',
+        name: 'system_user_basic-info',
+        meta: {
+          title: '基础详情',
+          hidden: true,
+          activeMenu: 'basic-list',
+        },
+        component: () => import('@/views/list/basicList/info.vue'),
       },
       {
         path: 'role',
         name: 'system_role',
         meta: {
-          title: '角色权限管理',
+          title: 'User Role Management',
         },
         component: () => import('@/views/system/role/role.vue'),
       },
