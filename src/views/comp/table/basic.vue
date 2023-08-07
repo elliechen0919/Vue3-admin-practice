@@ -117,7 +117,6 @@
       positiveText: '确定',
       negativeText: '取消',
       onPositiveClick: () => {
-        // todo 頁面的path要改 這是錯的
         router.push({ name: 'member-basic-info', params: { id: record.id } });
       },
       onNegativeClick: () => {},

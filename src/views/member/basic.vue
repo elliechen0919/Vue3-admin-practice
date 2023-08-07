@@ -26,6 +26,8 @@
   import { useDialog, useMessage } from 'naive-ui';
   import { DeleteOutlined, EditOutlined } from '@vicons/antd';
   import { useRouter } from 'vue-router';
+  import { useUserStore } from '@/store/modules/user';
+  const userStore = useUserStore();
 
   const router = useRouter();
 
@@ -117,8 +119,8 @@
       positiveText: '确定',
       negativeText: '取消',
       onPositiveClick: () => {
-        // todo 頁面的path要改 這是錯的
         router.push({ name: 'member-basic-info', params: { id: record.id } });
+        userStore.setUserInfo(record);
       },
       onNegativeClick: () => {},
     });
