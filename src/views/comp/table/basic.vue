@@ -102,7 +102,7 @@
       negativeText: '取消',
       onPositiveClick: () => {
         message.success('删除成功');
-        // todo 頁面需要重新取得資料
+        reloadTable();
       },
       onNegativeClick: () => {},
     });
