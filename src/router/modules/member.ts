@@ -1,7 +1,9 @@
 import { RouteRecordRaw } from 'vue-router';
 import { Layout } from '@/router/constant';
-import { OptionsSharp } from '@vicons/ionicons5';
-import { renderIcon } from '@/utils/index';
+import { WalletOutlined } from '@vicons/antd';
+import { renderIcon } from '@/utils';
+
+const routeName = 'member';
 
 /**
  * @param name 路由名称, 必须设置,且不能重名
@@ -16,42 +18,42 @@ import { renderIcon } from '@/utils/index';
  * */
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/system',
-    name: 'System',
-    redirect: '/system/menu',
+    path: '/member',
+    name: routeName,
     component: Layout,
+    redirect: '/comp/table',
     meta: {
-      title: 'System',
-      icon: renderIcon(OptionsSharp),
+      title: 'member',
+      icon: renderIcon(WalletOutlined),
+      // 排序
       sort: 1,
     },
     children: [
       {
-        path: 'user',
-        name: 'system_user',
+        path: 'basic',
+        name: `${routeName}_table_basic`,
         meta: {
-          title: 'User Management',
+          title: 'Member Management',
         },
-        component: () => import('@/views/list/basicList/index.vue'),
+        component: () => import('@/views/comp/table/basic.vue'),
       },
-      // todo 之後改一下path
       {
-        path: 'user/basic-info/:id?',
-        name: 'system_user_basic-info',
+        path: 'member-basic-info/:id?',
+        name: 'member-basic-info',
         meta: {
-          title: '基础详情',
+          title: 'member basic info',
           hidden: true,
-          activeMenu: 'basic-list',
+          // activeMenu: 'basic-list',
         },
         component: () => import('@/views/list/basicList/info.vue'),
       },
       {
-        path: 'role',
-        name: 'system_role',
+        path: 'editCell',
+        name: `${routeName}_table_editCell`,
         meta: {
-          title: 'User Role Management',
+          title: 'OTP State (not yet)',
         },
-        component: () => import('@/views/system/role/role.vue'),
+        component: () => import('@/views/comp/table/editCell.vue'),
       },
     ],
   },
