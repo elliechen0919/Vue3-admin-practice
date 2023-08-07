@@ -2,13 +2,12 @@
   <n-grid cols="2 s:2 m:2 l:3 xl:3 2xl:3" responsive="screen">
     <n-grid-item>
       <n-form :label-width="80" :model="formValue" :rules="rules" ref="formRef">
-        <!-- todo 改欄位名稱 -->
         <n-form-item label="名称" path="name">
           <n-input v-model:value="formValue.name" placeholder="请输入名称" />
         </n-form-item>
 
-        <n-form-item label="编号" path="icpCode">
-          <n-input placeholder="请输入编号" v-model:value="formValue.icpCode" />
+        <n-form-item label="编号" path="no">
+          <n-input placeholder="请输入编号" v-model:value="formValue.no" />
         </n-form-item>
 
         <!-- <n-form-item label="联系电话" path="mobile">
@@ -19,30 +18,13 @@
           <n-input v-model:value="formValue.address" type="textarea" placeholder="请输入联系地址" />
         </n-form-item>
 
-        <!-- <n-form-item label="登录验证码" path="loginCode">
-          <n-radio-group v-model:value="formValue.loginCode" name="loginCode">
-            <n-space>
-              <n-radio :value="1">开启</n-radio>
-              <n-radio :value="0">关闭</n-radio>
-            </n-space>
-          </n-radio-group>
-        </n-form-item>
-
-        <n-form-item label="网站开启访问" path="systemOpen">
+        <n-form-item label="狀態" path="status">
           <n-switch
             size="large"
-            v-model:value="formValue.systemOpen"
+            v-model:value="formValue.status"
             @update:value="systemOpenChange"
           />
         </n-form-item>
-
-        <n-form-item label="网站关闭提示" path="closeText">
-          <n-input
-            v-model:value="formValue.closeText"
-            type="textarea"
-            placeholder="请输入网站关闭提示"
-          />
-        </n-form-item> -->
 
         <div>
           <n-space>
@@ -57,23 +39,26 @@
 <script lang="ts">
   import { defineComponent, reactive, ref, toRefs } from 'vue';
   import { useDialog, useMessage } from 'naive-ui';
-  import { UserInfoType, useUserStore } from '@/store/modules/user';
+  import { useUserStore } from '@/store/modules/user';
   const userStore = useUserStore();
-  const userInfo: UserInfoType = userStore.getUserInfo || {};
+  const userInfo = userStore.getUserInfo || {};
   console.log(userInfo);
-
-  // todo 把userInfo 放入formValue裡面
 
   const rules = {
     name: {
       required: true,
-      message: '请输入网站名称',
+      message: '请输入名称',
       trigger: 'blur',
     },
-    mobile: {
+    no: {
       required: true,
-      message: '请输入联系电话',
-      trigger: 'input',
+      message: '请输入编号',
+      trigger: 'blur',
+    },
+    address: {
+      required: true,
+      message: '请输入联系地址',
+      trigger: 'blur',
     },
   };
 
@@ -86,28 +71,33 @@
       const state = reactive({
         formValue: {
           name: '',
-          mobile: '',
-          icpCode: '',
+          no: '',
           address: '',
-          loginCode: 0,
-          closeText:
-            '网站维护中，暂时无法访问！本网站正在进行系统维护和技术升级，网站暂时无法访问，敬请谅解！',
-          systemOpen: true,
+          status: false,
         },
       });
+
+      // 當 userInfo 有資料時，將其複製到 formValue 中
+      if (userInfo) {
+        state.formValue.name = userInfo.name || '';
+        state.formValue.no = userInfo.no || '';
+        state.formValue.address = userInfo.address || '';
+        state.formValue.status = userInfo.status || true;
+      }
 
       function systemOpenChange(value) {
         if (!value) {
           dialog.warning({
             title: '提示',
-            content: '您确定要关闭系统访问吗？该操作立马生效，请慎重操作！',
+            content: '您确定要关闭會員權限吗？该操作立马生效，请慎重操作！',
             positiveText: '确定',
             negativeText: '取消',
             onPositiveClick: () => {
               message.success('操作成功');
+              state.formValue.status = false;
             },
             onNegativeClick: () => {
-              state.formValue.systemOpen = true;
+              state.formValue.status = true;
             },
           });
         }
@@ -116,9 +106,9 @@
       function formSubmit() {
         formRef.value.validate((errors) => {
           if (!errors) {
-            message.success('验证成功');
+            message.success('送出成功');
           } else {
-            message.error('验证失败，请填写完整信息');
+            message.error('送出失败，请填写完整信息');
           }
         });
       }
