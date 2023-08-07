@@ -38,6 +38,16 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/comp/table/basic.vue'),
       },
       {
+        path: 'member-basic-info/:id?',
+        name: 'member-basic-info',
+        meta: {
+          title: 'member basic info',
+          hidden: true,
+          // activeMenu: 'basic-list',
+        },
+        component: () => import('@/views/list/basicList/info.vue'),
+      },
+      {
         path: 'editCell',
         name: `${routeName}_table_editCell`,
         meta: {
