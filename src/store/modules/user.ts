@@ -10,6 +10,9 @@ export type UserInfoType = {
   // TODO: add your own data
   name: string;
   email: string;
+  no: string;
+  address: string;
+  status: boolean;
 };
 
 export interface IUserState {

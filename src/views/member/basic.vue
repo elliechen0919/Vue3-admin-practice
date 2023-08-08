@@ -26,6 +26,8 @@
   import { useDialog, useMessage } from 'naive-ui';
   import { DeleteOutlined, EditOutlined } from '@vicons/antd';
   import { useRouter } from 'vue-router';
+  import { useUserStore } from '@/store/modules/user';
+  const userStore = useUserStore();
 
   const router = useRouter();
 
@@ -118,6 +120,7 @@
       negativeText: '取消',
       onPositiveClick: () => {
         router.push({ name: 'member-basic-info', params: { id: record.id } });
+        userStore.setUserInfo(record);
       },
       onNegativeClick: () => {},
     });

@@ -35,7 +35,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: 'Member Management',
         },
-        component: () => import('@/views/comp/table/basic.vue'),
+        component: () => import('@/views/member/basic.vue'),
       },
       {
         path: 'member-basic-info/:id?',
@@ -45,7 +45,7 @@ const routes: Array<RouteRecordRaw> = [
           hidden: true,
           // activeMenu: 'basic-list',
         },
-        component: () => import('@/views/list/basicList/info.vue'),
+        component: () => import('@/views/member/BasicSetting.vue'),
       },
       {
         path: 'editCell',
